@@ -1,6 +1,14 @@
 gen: gen.cpp	
 	g++ gen.cpp -o gen.out
-run:
+
+serial: serial.cpp
+	g++ serial.cpp -o serial.out
+
+run_gen:
 	./gen.out
+
+run_serial:
+	./serial.out
+
 clean:
 	rm *.out
