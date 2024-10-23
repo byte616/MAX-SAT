@@ -41,7 +41,7 @@ int evaluate(vector<vector<int>> &vc, vector<int> vx) {
 				flag = 1;
 				break;
 			}
-			if(clause[j] < 0 && vx[clause[j]] == 0) {
+			if(clause[j] < 0 && vx[-clause[j]] == 0) {
 				flag = 1;
 				break;
 			}

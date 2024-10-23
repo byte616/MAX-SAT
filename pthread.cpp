@@ -23,7 +23,7 @@ void open_file(ifstream &finput,ofstream &foutput,int t_case){
 	string dir_path = "./data/";
 
 	string input_file_name = to_string(t_case)+".in";
-	string output_file_name = "serial"+to_string(t_case)+".ans";
+	string output_file_name = "pthread"+to_string(t_case)+".ans";
 
 	string input_path = dir_path + input_file_name;
 	string output_path = dir_path + output_file_name;
@@ -51,7 +51,7 @@ int evaluate(vector<vector<int>> &vc, vector<int> vx) {
 				flag = 1;
 				break;
 			}
-			if(clause[j] < 0 && vx[clause[j]] == 0) {
+			if(clause[j] < 0 && vx[-clause[j]] == 0) {
 				flag = 1;
 				break;
 			}
@@ -104,7 +104,7 @@ void random_max_sat(vector<vector<int>> &vc, ofstream &foutput, int t_case) {
 		}
 		pthread_create(&threads[i], NULL, random_max_sat_thread, (void*) &thread_data[i]);
 	}
-
+	
 	// pthread join
 	vector<int> BX;
 	int B = 0;
