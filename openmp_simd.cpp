@@ -3,6 +3,7 @@
 #include <vector>
 #include<algorithm>
 #include <omp.h>
+#include <immintrin.h>
 using namespace std;
 
 const int N = 10;
@@ -34,21 +35,37 @@ void open_file(ifstream &finput,ofstream &foutput,int t_case){
 }
 
 int evaluate(vector<vector<int>> &vc, vector<int> vx) {
-	int satisfy = 0;
-
-	for(auto clause : vc) {
-		bool flag = 0;
-		for(int j = 0; j < clause.size(); j++) {
-			if(clause[j] > 0 && vx[clause[j]] == 1) {
-				flag = 1;
+	int satisfy = 0, idx = 0;
+	vector<int> vs(vc.size());
+	
+	for(int i = 0; i < vc.size(); i++) {
+		for(int j = 0; j < vc[i].size(); j++) {
+			if(vc[i][j] > 0 && vx[vc[i][j]] == 1) {
+				vs[i] = 1;
 				break;
 			}
-			if(clause[j] < 0 && vx[-clause[j]] == 0) {
-				flag = 1;
+			if(vc[i][j] < 0 && vx[-vc[i][j]] == 0) {
+				vs[i] = 1;
 				break;
 			}
 		}
-		satisfy += flag;
+	}
+
+	// SIMD ADD
+	__m256i vec_sum = _mm256_setzero_si256();
+	for (int i = 0; i < vs.size(); i += 8) {
+        __m256i vec = _mm256_loadu_si256((__m256i*)&vs[i]);
+        vec_sum = _mm256_add_epi32(vec_sum, vec);
+    }
+	int result[8];
+	_mm256_storeu_si256((__m256i*)result, vec_sum);
+	for(int i = 0; i < 8; i++) {
+		satisfy += result[i];
+	}
+
+	// remaining work
+	for(int i = (vs.size() / 8) * 8; i < vs.size(); i++) {
+		satisfy += vs[i];
 	}
 
 	return satisfy;
@@ -63,7 +80,7 @@ void random_max_sat(vector<vector<int>> &vc, ofstream &foutput, int t_case) {
 	{
 		// set local variable
 		int LB = 0;
-		vector<int> LBX; 
+		vector<int> LBX;
 		unsigned seed = time(0);
 
 		// parallelize
@@ -82,7 +99,7 @@ void random_max_sat(vector<vector<int>> &vc, ofstream &foutput, int t_case) {
 			}
 
 		}
-		
+
 		// merge answer --> synchronization
 		#pragma omp critical
 		{
