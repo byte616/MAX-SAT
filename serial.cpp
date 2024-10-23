@@ -56,12 +56,13 @@ void random_max_sat(vector<vector<int>> &vc, ofstream &foutput, int t_case) {
 	
 	vector<int> BX;
 	int B = 0;
+	unsigned seed = time(0);
 	
 	for(int i = 0; i < R; i++) {
 		// random set x_j - 0 or 1
 		vector<int> vx(n + 1);
 		for(int j = 1; j <= n; j++){
-			vx[j] = rand() % 2;
+			vx[j] = rand_r(&seed) % 2;
 		}
 		// update best answer
 		int score = evaluate(vc, vx);

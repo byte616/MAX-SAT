@@ -15,6 +15,7 @@ struct Threaddata {
 	vector<vector<int>> *vc; // pointer for save space
 	int start, end;
 	int LB;
+	unsigned int seed;
 	vector<int> LBX;
 };
 
@@ -67,12 +68,13 @@ void *random_max_sat_thread(void *arg) {
 	// LBX, LB maintain local best solution
 	vector<int> LBX;
 	int LB = 0;
+	unsigned int seed = data->seed;
 
 	// thread work
 	for(int i = data->start; i < data->end; i++) {
 		vector<int> vx(n + 1);
 		for(int j = 1; j <= n; j++) {
-			vx[j] = rand() % 2;
+			vx[j] = rand_r(&seed) % 2;
 		}
 		int score = evaluate(*(data->vc), vx);
 		if(score > LB) {
@@ -99,6 +101,7 @@ void random_max_sat(vector<vector<int>> &vc, ofstream &foutput, int t_case) {
 		thread_data[i].vc = &vc;
 		thread_data[i].start = i * work_size;
 		thread_data[i].end = (i + 1) * work_size;
+		thread_data[i].seed = time(0);
 		if(i == numthread - 1) {
 			thread_data[i].end = R;
 		}
