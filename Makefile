@@ -3,6 +3,9 @@ all: gen serial pthread openmp pthread_simd openmp_simd openmp_SIMD pthread_SIMD
 gen: gen.cpp	
 	g++ gen.cpp -o gen.out
 
+transform: transform.cpp	
+	g++ transform.cpp -o transform.out
+
 serial: serial.cpp
 	g++ -O3 serial.cpp -o serial.out
 
