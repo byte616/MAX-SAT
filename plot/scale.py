@@ -2,11 +2,12 @@ import matplotlib.pyplot as plt
 
 # Data for speedup comparison
 threads = [1, 2, 3, 4, 5, 6]
-openmp_speedup = [1, 1.86, 2.32, 2.63, 3.012, 3.38]
-pthread_speedup = [1, 1.85, 2.35, 2.75, 3.07, 3.42]
+openmp_speedup = [1, 4.23, 5.26, 6.10, 6.83, 7.66]
+pthread_speedup = [1, 4.27, 5.41, 6.31, 7.05, 7.87]
 
 # Create line plot for speedup comparison
 plt.figure(figsize=(10, 6))
+plt.rcParams.update({'font.size': 20})
 
 # Plot for OpenMP and Pthread
 plt.plot(threads, openmp_speedup, marker='o', linestyle='-', color='blue', label='OpenMP + SIMD')

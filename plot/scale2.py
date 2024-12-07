@@ -7,6 +7,7 @@ pthread_speedup = [1, 1.84, 2.51, 2.80, 3.30, 3.74]
 
 # Create line plot for speedup comparison
 plt.figure(figsize=(10, 6))
+plt.rcParams.update({'font.size': 20})
 
 # Plot for OpenMP and Pthread
 plt.plot(threads, openmp_speedup, marker='o', linestyle='-', color='blue', label='OpenMP + SIMD')
