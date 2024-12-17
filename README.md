@@ -1,6 +1,6 @@
 # MAX-SAT with Parallel Programming
 
-- gen.cpp: generate testcase (testcase will generate in directory ``data/``)
+- generate testcase (testcase will generate in directory ``data/``)
 ```
 make gen 
 make run_gen
@@ -27,7 +27,7 @@ make run_pthread_simd
   - openmp_SIMD.cpp: parallel  $\frac{1}{2}-approximation$ with OpenMP and SIMD (add & or)
 
 
-- plot experiment result (in `plot/`)
+- plot experiment result (in directory `plot/`)
 
 ```
 python3 experiment.py 
@@ -37,4 +37,9 @@ python3 experiment.py
   - compare_serial.py: compare serial and parallel
   - SIMD.py: ablation study
   - scale.py: multi-threading scalability
-  - plot_SOTA.py: compare with heuristic   
+  - plot_SOTA.py: compare with heuristic
+ 
+- other heuristic: [here](https://github.com/MohammadYasinKarbasian/MAX-SAT-solver)
+  - transform.cpp can transform testcase in `data/` into the input format of those heuristic
+ 
+- Lovász Local Lemma: [here](https://github.com/forward0606/RandomAlgorithm/tree/main/HW5/p5)
